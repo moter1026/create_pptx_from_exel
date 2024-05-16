@@ -48,3 +48,21 @@ def find_and_save_img_from_exel(file_name: str, name_sheet: str, names_img_file:
                 find_img = True
 
     return find_img
+
+
+
+def edit_data_from_sheet(data: pd.DataFrame()):
+    """
+    Разбивает данные со страницы на три таблицы
+    """
+    indexes = ['C_plus', 'E_plus', 'КУО']
+    result = {}
+    for i in range(0, len(indexes)):
+        table = data[data.columns[i+1:i+2]]
+        table.insert(0, 'ID', range(1, len(table) + 1))
+        table = table.sort_values(by=data.columns[i+1], ascending=False)
+        table.insert(0, 'п/п', range(1, len(table) + 1))
+        result[indexes[i]] = table
+    return result
+
+

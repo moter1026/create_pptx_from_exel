@@ -7,6 +7,7 @@ from pptx.util import Inches
 from work_with_exel import get_data_from_sheet
 
 
+
 class Present:
     table_top = Inches(0.35)
     table_width = Inches(4.0)
