@@ -8,7 +8,7 @@ import pandas as pd
 
 
 from pptx import Presentation
-from pptx.util import Inches
+from pptx.util import Inches, Pt
 
 
 def main() -> None:
@@ -40,15 +40,16 @@ def main() -> None:
 
         rows = num_rows
         columns = num_columns
-        left = top = Inches(2.0)
+        left = top = Inches(1.5)
         width = Inches(6.0)
-        height = Inches(0.8)
+        height = Inches(0.4)
         table = shapes.add_table(rows, columns, left, top, width, height).table
 
         for row in stat.itertuples():
             for index in range(stat.columns.size):
                 value = str(stat.iloc[row.Index, index])
                 table.cell(int(row.Index), int(index)).text = value
+                table.cell(int(row.Index), int(index)).text_frame.paragraphs[0].runs[0].font.size = Pt(10)
 
         tables.append(stat)
         ind += 1

@@ -19,7 +19,7 @@ class Present:
 
         for table in tables:
             num_rows, num_columns = table.shape
-            slide.shapes.add_table(num_rows, num_columns, Inches(2), Inches(2), Inches(4), Inches(1.5))
+            slide.shapes.add_table(num_rows, num_columns, Inches(1), Inches(1), Inches(2), Inches(1.2))
 # Продолжение следует...
 
 
