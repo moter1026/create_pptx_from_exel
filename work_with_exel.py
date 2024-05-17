@@ -45,7 +45,7 @@ def find_and_save_img_from_exel(file_name: str, name_sheet: str) -> list:
             os.makedirs(json_data["img_directory"])
 
         image = image_loader.get(coordinate)
-        image_name = f"{json_data["img_directory"]}/{name_sheet}_img_№{count_img}.png"
+        image_name = f'{json_data["img_directory"]}/{name_sheet}_img_№{count_img}.png'
         image.save(image_name)
         result.append(image_name)
         count_img += 1
