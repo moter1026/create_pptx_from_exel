@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 
 from typing import Any
@@ -39,6 +41,9 @@ def find_and_save_img_from_exel(file_name: str, name_sheet: str) -> list:
     result = []
     count_img = 0
     for coordinate in image_loader._images:
+        if not os.path.exists(json_data["img_directory"]):
+            os.makedirs(json_data["img_directory"])
+
         image = image_loader.get(coordinate)
         image_name = f"{json_data["img_directory"]}/{name_sheet}_img_№{count_img}.png"
         image.save(image_name)
