@@ -53,7 +53,7 @@ def find_and_save_img_from_exel(file_name: str, name_sheet: str) -> list:
     return result
 
 
-def edit_data_from_sheet(data: pd.DataFrame()):
+def edit_data_from_sheet(data: pd.DataFrame()) -> tuple[dict, dict]:
     """
     Разбивает данные со страницы на три таблицы
     """
@@ -65,6 +65,10 @@ def edit_data_from_sheet(data: pd.DataFrame()):
         table = table.sort_values(by=data.columns[i+1], ascending=False)
         table.insert(0, 'п/п', range(1, len(table) + 1))
         result[indexes[i]] = table
-    return result
+    group_table = {}
+    group_table_indexes = ['S_group',	'E_group', 'BB_group']
+    for key in group_table_indexes:
+        group_table[key] = data.at[0, key]
+    return result, group_table
 
 

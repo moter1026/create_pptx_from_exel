@@ -23,7 +23,8 @@ def main():
                          'Статистика4': [36, 37],
                          'Статистика5': [43, 44],
                          'Статистика6': [50, 51]}
-
+    all_groups_slide = 52
+    relevance_table_slide = 54
     json_data = work_with_json.read_json_file("./files.json")
 
     pptx_file = json_data["pptx_out_file"]
@@ -32,19 +33,35 @@ def main():
 
     prs = Present(pptx_file, 10, template_file)
     prs.save_titul_slide("Какой-то 11й группы")
-
+    last_table_df = pd.DataFrame(columns=['п/п', 'S_group', 'E_group', 'BB_group'])
+    relevance_types = {1: 'Д/р',
+                       2: 'Совет',
+                       3: 'Командировка',
+                       4: 'Д/з',
+                       5: 'Инженер',
+                       6: 'IT'}
+    relevance_table = pd.DataFrame(columns=['п/п', 'Вид общения', 'S_group'])
+    i = 1
     for key in slides_for_stats.keys():
         data = get_data_from_sheet(xlsx_file, key)
         images_paths = find_and_save_img_from_exel(json_data["exel_in_file"], key)
-        data = edit_data_from_sheet(data)
+        data, stats = edit_data_from_sheet(data)
         for stat_key in data.keys():
             prs.add_table_to_slide(data[stat_key], slides_for_stats[key][stat_key])
-
+        prs.add_mini_table_to_slide(stats, slides_for_stats[key]['group'])
+        stats['п/п'] = i
+        last_table_df.loc[len(last_table_df)] = stats
+        relevance_table.loc[len(relevance_table)] = {'п/п': i, 'Вид общения': relevance_types[i],
+                                                     'S_group': stats['S_group']}
+        i += 1
         ind = 0
         for path in images_paths:
             prs.add_image_to_slide(path, slides_for_graphs[key][ind])
             ind += 1
-
+    prs.add_last_tables(last_table_df, all_groups_slide)
+    relevance_table = relevance_table.sort_values(by=relevance_table.columns[2], ascending=False)
+    relevance_table.insert(0, 'Рейтинг', range(1, len(relevance_table) + 1))
+    prs.add_last_tables(relevance_table, relevance_table_slide)
     prs.save()
 
 

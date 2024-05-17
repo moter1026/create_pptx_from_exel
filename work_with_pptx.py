@@ -6,7 +6,7 @@ from pptx import Presentation
 from pptx.util import Inches
 from openpyxl import load_workbook
 from openpyxl_image_loader import SheetImageLoader
-
+from openpyxl.styles import Font
 from work_with_exel import get_data_from_sheet
 
 
@@ -84,6 +84,36 @@ class Present:
         width, height = (Inches(8.5), Inches(6.39))
 
         shapes.add_picture(img_path, left, top, width=width, height=height)
+
+    def add_mini_table_to_slide(self, data: dict, slide_index: int) -> None:
+        top = Inches(4.58)
+        left = Inches(2.55)
+        width = Inches(5)
+        height = Inches(1.2)
+        shapes = self.prs.slides[slide_index].shapes
+        table = shapes.add_table(2, len(data.keys()), left, top, width,
+                                 height).table
+        keys = list(data.keys())
+        for i in range(0, len(keys)):
+            table.cell(0, i).text = keys[i]
+            table.cell(1, i).text = data[keys[i]]
+
+    def add_last_tables(self, data: pd.DataFrame(), slide_index: int):
+        top = Inches(2.25)
+        left = Inches(1.25)
+        width = Inches(10.44)
+        height = Inches(4.35)
+        shapes = self.prs.slides[slide_index].shapes
+        rows, cols = data.shape
+        table = shapes.add_table(rows+1, cols, left, top, width,
+                                 height).table
+        names = data.columns
+        for i in range(0, len(names)):
+            table.cell(0, i).text = names[i]
+        for row in data.itertuples():
+            for index in range(data.columns.size):
+                value = str(data.iloc[row.Index, index])
+                table.cell(int(row.Index+1), int(index)).text = value
 
     def save(self):
         self.prs.save(self.name_of_file)
