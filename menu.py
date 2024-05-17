@@ -9,9 +9,11 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QFileDialog, QMainWindow
 
 
 class Ui_footerMenu(object):
+
     def setupUi(self, footerMenu):
         footerMenu.setObjectName("footerMenu")
         footerMenu.resize(784, 320)
@@ -20,7 +22,7 @@ class Ui_footerMenu(object):
         font.setPointSize(19)
         footerMenu.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./../icons/label5.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("./icons/label5.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         footerMenu.setWindowIcon(icon)
         self.footerMenu_central = QtWidgets.QWidget(footerMenu)
         self.footerMenu_central.setObjectName("footerMenu_central")
@@ -29,7 +31,7 @@ class Ui_footerMenu(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.footerMenu_content = QtWidgets.QFrame(self.footerMenu_central)
-        self.footerMenu_content.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.footerMenu_content.setStyleSheet("background-color: rgb(245, 253, 229);")
         self.footerMenu_content.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.footerMenu_content.setFrameShadow(QtWidgets.QFrame.Plain)
         self.footerMenu_content.setLineWidth(0)
@@ -76,13 +78,13 @@ class Ui_footerMenu(object):
         self.Socimetry = QtWidgets.QLabel(self.fText)
         self.Socimetry.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
-        font.setFamily("Noto Sans Lisu")
+        font.setFamily("Casadia Code")
         font.setPointSize(15)
         font.setBold(False)
         font.setWeight(50)
         self.Socimetry.setFont(font)
         self.Socimetry.setScaledContents(True)
-        self.Socimetry.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.Socimetry.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.Socimetry.setObjectName("Socimetry")
         self.horizontalLayout_9.addWidget(self.Socimetry)
         self.horizontalLayout_7.addWidget(self.fText)
@@ -92,17 +94,17 @@ class Ui_footerMenu(object):
         self.verticalLayout_3.addWidget(self.footer)
         self.MenuBase = QtWidgets.QFrame(self.footerMenu_content)
         self.MenuBase.setStyleSheet("QPushButton:hover\n"
-"{\n"
-"    background-position: center;\n"
-"    background-color: rgb(143, 240, 164);\n"
-"}\n"
-"\n"
-"QPushButton\n"
-"{ \n"
-"    background-color: rgb(255, 190, 111);\n"
-"    border-radius: 10px;\n"
-"}\n"
-"")
+                                    "{\n"
+                                    "    background-position: center;\n"
+                                    "    background-color: rgb(193, 228, 166);\n"
+                                    "}\n"
+                                    "\n"
+                                    "QPushButton\n"
+                                    "{ \n"
+                                    "    background-color: rgb(173, 197, 172);\n"
+                                    "    border-radius: 10px;\n"
+                                    "}\n"
+                                    "")
         self.MenuBase.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.MenuBase.setFrameShadow(QtWidgets.QFrame.Raised)
         self.MenuBase.setObjectName("MenuBase")
@@ -132,12 +134,18 @@ class Ui_footerMenu(object):
         self.NameMenu.setFont(font)
         self.NameMenu.setObjectName("NameMenu")
         self.verticalLayout_4.addWidget(self.NameMenu)
+        self.exel_path = None
+        #
         self.PathForExcel = QtWidgets.QPushButton(self.DescryptorsFrame)
+        self.PathForExcel.clicked.connect(self.get_exel_path)
+        #
         self.PathForExcel.setMinimumSize(QtCore.QSize(0, 40))
         self.PathForExcel.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.PathForExcel.setObjectName("PathForExcel")
         self.verticalLayout_4.addWidget(self.PathForExcel)
+        #
         self.SaveHow = QtWidgets.QPushButton(self.DescryptorsFrame)
+        #
         self.SaveHow.setMinimumSize(QtCore.QSize(0, 40))
         self.SaveHow.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.SaveHow.setObjectName("SaveHow")
@@ -154,9 +162,22 @@ class Ui_footerMenu(object):
 
     def retranslateUi(self, footerMenu):
         _translate = QtCore.QCoreApplication.translate
-        footerMenu.setWindowTitle(_translate("footerMenu", "Cryptography"))
+        footerMenu.setWindowTitle(_translate("footerMenu", "PresentationMaker"))
         self.Socimetry.setText(_translate("footerMenu", "Sociometry"))
         self.Developers.setText(_translate("footerMenu", "Dev: Semenova, Pihurov, Frolkin"))
         self.NameMenu.setText(_translate("footerMenu", "Menu:"))
-        self.PathForExcel.setText(_translate("footerMenu", "Export Excel"))
+        self.PathForExcel.setText(_translate("footerMenu", "Укажите путь к файлу Excel"))
         self.SaveHow.setText(_translate("footerMenu", "Save as"))
+
+    def get_exel_path(self):
+        _translate = QtCore.QCoreApplication.translate
+        self.exel_path, _ = QFileDialog.getOpenFileName(None, "Выберите файл excel", "", "Все файлы (*.xlsx)")
+        if self.exel_path:
+            self.PathForExcel.setText(_translate("footerMenu", self.exel_path))
+
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.ui = Ui_footerMenu()
+        self.ui.setupUi(self)

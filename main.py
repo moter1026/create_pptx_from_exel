@@ -1,16 +1,16 @@
 import pandas as pd
-
+import sys
 from pptx import Presentation
 from pptx.util import Inches
-
+from PyQt5.QtWidgets import QApplication
 import work_with_json
 
 from work_with_exel import (get_data_from_sheet, edit_data_from_sheet,
                             find_and_save_img_from_exel)
 from work_with_pptx import Present
+from menu import MainWindow
 
-
-def main():
+def main(pptx_file: str, xlsx_file: str):
     slides_for_stats = {'Статистика1': {'C_plus': 6, 'E_plus': 8, 'КУО': 10, 'group': 14},
                         'Статистика2': {'C_plus': 18, 'E_plus': 19, 'КУО': 20, 'group': 21},
                         'Статистика3': {'C_plus': 25, 'E_plus': 26, 'КУО': 27, 'group': 28},
@@ -25,11 +25,6 @@ def main():
                          'Статистика6': [50, 51]}
     all_groups_slide = 52
     relevance_table_slide = 54
-    json_data = work_with_json.read_json_file("./files.json")
-
-    pptx_file = json_data["pptx_out_file"]
-    template_file = json_data["template_file"]
-    xlsx_file = json_data["exel_in_file"]
 
     prs = Present(pptx_file, 10, template_file)
     prs.save_titul_slide("Какой-то 11й группы")
@@ -66,4 +61,14 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    json_data = work_with_json.read_json_file("./files.json")
+
+    pptx_file = json_data["pptx_out_file"]
+    template_file = json_data["template_file"]
+    xlsx_file = json_data["exel_in_file"]
+    # main(pptx_file, xlsx_file)
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec_())
+
