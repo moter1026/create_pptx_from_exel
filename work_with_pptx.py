@@ -1,11 +1,13 @@
 import os
 import pandas as pd
+from PIL.PngImagePlugin import PngImageFile
 
 from pptx import Presentation
 from pptx.util import Inches
+from openpyxl import load_workbook
+from openpyxl_image_loader import SheetImageLoader
 
 from work_with_exel import get_data_from_sheet
-
 
 
 class Present:
@@ -41,7 +43,7 @@ class Present:
                 if '{group}' in text_frame.text:
                     text_frame.text = text_frame.text.replace("{group}", group)
 
-    def add_table_to_slide(self, data: pd.DataFrame(), slide_index: int):
+    def add_table_to_slide(self, data: pd.DataFrame(), slide_index: int) -> None:
         """
         Добавляет подготовленную таблицу на слайд шаблонной презы
         :param data: подготволенная таблица из трех столбцов
@@ -69,10 +71,22 @@ class Present:
                 tables[row.Index // 16].cell(int(row.Index % 16 + 1), int(index)).text = value
         #
 
+    def add_image_to_slide(self, img_path: str, slide_index: int) -> None:
+        """
+        Добавляет подготовленные изображение на слайд шаблонной презы
+        :param img_path:
+        :param slide_index: номер слайда, куда необходимо вставить
+        :return: None
+        """
+        shapes = self.prs.slides[slide_index].shapes
+        left = Inches(3.8)  # Расположение по горизонтали
+        top = Inches(0.8)  # Расположение по вертикали
+        width, height = (Inches(8.5), Inches(6.39))
+
+        shapes.add_picture(img_path, left, top, width=width, height=height)
+
     def save(self):
         self.prs.save(self.name_of_file)
-
-
 
 
 def create_new_presentation(name_new_file: str) -> None:
@@ -86,4 +100,3 @@ def create_new_presentation(name_new_file: str) -> None:
     subtitle.text = "python-pptx was here!"
 
     prs.save(f"./pptx files/{name_new_file}.pptx")
-
