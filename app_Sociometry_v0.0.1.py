@@ -12,8 +12,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_footerMenu(object):
+    def __init__(self):
+        self.exel_file = None
+        self.pptx_path = None
+        self.pptx_file = None
 
     def setupUi(self, footerMenu):
+
         footerMenu.setObjectName("footerMenu")
         footerMenu.resize(988, 598)
         font = QtGui.QFont()
@@ -154,6 +159,16 @@ class Ui_footerMenu(object):
         self.SelectTableExcel.setStyleSheet("")
         self.SelectTableExcel.setObjectName("SelectTableExcel")
         self.verticalLayout_2.addWidget(self.SelectTableExcel)
+        self.SelectPresentationForInsert = QtWidgets.QLabel(self.DescryptorsFrame)
+        self.SelectPresentationForInsert.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.SelectPresentationForInsert.setObjectName("SelectPresentationForInsert")
+        self.verticalLayout_2.addWidget(self.SelectPresentationForInsert)
+        self.SelectPresentation = QtWidgets.QPushButton(self.DescryptorsFrame)
+        self.SelectPresentation.setMinimumSize(QtCore.QSize(0, 60))
+        self.SelectPresentation.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.SelectPresentation.setStyleSheet("")
+        self.SelectPresentation.setObjectName("SelectPresentation")
+        self.verticalLayout_2.addWidget(self.SelectPresentation)
         self.ExportPresentation = QtWidgets.QPushButton(self.DescryptorsFrame)
         self.ExportPresentation.setMinimumSize(QtCore.QSize(0, 60))
         self.ExportPresentation.setMaximumSize(QtCore.QSize(16777215, 16777215))
@@ -170,29 +185,37 @@ class Ui_footerMenu(object):
 
         self.select_button()
 
+
     def retranslateUi(self, footerMenu):
+    
         _translate = QtCore.QCoreApplication.translate
         footerMenu.setWindowTitle(_translate("footerMenu", "Cryptography"))
         self.Socimetry.setText(_translate("footerMenu", "Sociometry"))
         self.Developers.setText(_translate("footerMenu", "Dev: Semenova, Pihurov, Frolkin"))
         self.OpenInstruction.setText(_translate("footerMenu", "Open Instruction"))
         self.textBrowser.setHtml(_translate("footerMenu",
-                                            "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-                                            "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                            "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
+                                            "\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                            "<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
+                                            "type=\"text/css\">\n"
                                             "p, li { white-space: pre-wrap; }\n"
-                                            "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-                                            "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Group number</p>\n"
-                                            "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.PathForTableExcel.setText(_translate("footerMenu", "PATH/FOR/TABLE/EXCEL"))
-        self.SelectPresentation.setText(_translate("footerMenu", "Select Table Excel"))
-        self.SelectPresentationForInsert.setText(_translate("footerMenu", "PATH/FOR/PRESENTATION"))
-        self.SelectTableExcel.setText(_translate("footerMenu", "Select Presentation"))
+                                            "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; "
+                                            "font-weight:400; font-style:normal;\">\n"
+                                            "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
+                                            "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Group "
+                                            "number</p>\n"
+                                            "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
+                                            "margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+                                            "text-indent:0px;\"><br /></p></body></html>"))
+        self.PathForTableExcel.setText(_translate("footerMenu", "EXCEL TABLE FILE"))
+        self.SelectTableExcel.setText(_translate("footerMenu", "Select exel table"))
+        self.SelectPresentation.setText(_translate("footerMenu", "Select path for presentation"))
+        self.SelectPresentationForInsert.setText(_translate("footerMenu", "PATH FOR PRESENTATION"))
         self.ExportPresentation.setText(_translate("footerMenu", "Get Result!"))
 
     # ВЫШЕ НЕ ТРОГАТЬ!!!, ниже можете добавлять различные классы, поля, функции и тд, главное добавьте ивенты в select_button @nick-vivo
 
     def select_button(self):
-        # TODO: добавлять обработчики событий, допустим при нажатии кнопки и тд @nick-vivo
         self.SelectTableExcel.clicked.connect(self.select_excel)
 
         self.SelectPresentation.clicked.connect(self.select_presentation)
@@ -201,18 +224,65 @@ class Ui_footerMenu(object):
 
         self.OpenInstruction.clicked.connect(self.open_instruction)
 
-    # TODO: прописываете функционал функций @nick-vivo
 
     def select_excel(self):
-        print("F*** U")
+        _translate = QtCore.QCoreApplication.translate
+
+        now_directory = os.getcwd()
+        self.exel_file, _ = QtWidgets.QFileDialog.getOpenFileName(self.footer, "Выберете exel файл",
+                                                                  directory=now_directory, filter="exel файлы (*.xlsx)")
+        self.exel_file = f"./{self.exel_file[len(now_directory) + 1:]}"
+        self.PathForTableExcel.setText(_translate("footerMenu", f"EXCEL TABLE FILE : {self.exel_file}"))
         pass
 
     def select_presentation(self):
-        print("U CLOUN")
+        _translate = QtCore.QCoreApplication.translate
+
+        now_directory = os.getcwd()
+        self.pptx_path = QtWidgets.QFileDialog.getExistingDirectory(self.footer, "Выберете папку для презентации",
+                                                                    directory=now_directory)
+        self.pptx_path = f"./{self.pptx_path[len(now_directory) + 1:]}"
+        self.SelectPresentationForInsert.setText(_translate("footerMenu", f"PATH FOR PRESENTATION : {self.pptx_path}"))
         pass
 
     def export_output(self):
-        print("STU*** SH**")
+        try:
+            slides_for_stats = {'Статистика1': {'C_plus': 6, 'E_plus': 8, 'КУО': 10, 'group': 14},
+                                'Статистика2': {'C_plus': 18, 'E_plus': 19, 'КУО': 20, 'group': 21},
+                                'Статистика3': {'C_plus': 25, 'E_plus': 26, 'КУО': 27, 'group': 28},
+                                'Статистика4': {'C_plus': 32, 'E_plus': 33, 'КУО': 34, 'group': 35},
+                                'Статистика5': {'C_plus': 39, 'E_plus': 40, 'КУО': 41, 'group': 42},
+                                'Статистика6': {'C_plus': 46, 'E_plus': 47, 'КУО': 48, 'group': 49}}
+            slides_for_graphs = {'Статистика1': [15, 16],
+                                 'Статистика2': [22, 23],
+                                 'Статистика3': [29, 30],
+                                 'Статистика4': [36, 37],
+                                 'Статистика5': [43, 44],
+                                 'Статистика6': [50, 51]}
+
+            prs = ser_pptx.Present(f"{self.pptx_path}{self.exel_file[self.exel_file.rfind("/"):
+                                                                     self.exel_file.rfind(".")]}.pptx",
+                                   f"./resource/pptx files/template.pptx")
+
+            prs.save_titul_slide("Какой-то 11й группы")
+            for key in slides_for_stats.keys():
+                data = ser_excel.get_table_data(self.exel_file, key)
+                images_paths = ser_excel.save_image_from_excel(self.exel_file, key, "./img")
+                data, stats = ser_excel.split_table_into_parts(data)
+                for stat_key in data.keys():
+                    prs.add_table_to_slide(data[stat_key], slides_for_stats[key][stat_key])
+
+                ind = 0
+                for path in images_paths:
+                    prs.add_image_to_slide(path, slides_for_graphs[key][ind])
+                    ind += 1
+
+            prs.save()
+        except FileNotFoundError as e:
+            QtWidgets.QMessageBox.critical(self.footer, f"File not found", f"File {e} not found!!!")
+        except Exception as e:
+            QtWidgets.QMessageBox.critical(self.footer, f"Error", f"Error {e}")
+
         pass
 
     def open_instruction(self):
@@ -224,6 +294,7 @@ class Ui_footerMenu(object):
 
 if __name__ == "__main__":
     import sys
+    import pandas as pd
 
     from modules.ser import ser_json, ser_excel, ser_pptx
 
