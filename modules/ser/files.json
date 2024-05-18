@@ -1,0 +1,6 @@
+{
+  "exel_in_file": "./exel files/Data_Socio_2024_ctud_11.xlsx",
+  "pptx_out_file": "./pptx files/Data_Socio_2024_ctud_11.pptx",
+  "template_file": "./pptx files/template.pptx",
+  "img_directory": "./img"
+}
