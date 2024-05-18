@@ -185,9 +185,8 @@ class Ui_footerMenu(object):
 
         self.select_button()
 
-
     def retranslateUi(self, footerMenu):
-    
+
         _translate = QtCore.QCoreApplication.translate
         footerMenu.setWindowTitle(_translate("footerMenu", "Cryptography"))
         self.Socimetry.setText(_translate("footerMenu", "Sociometry"))
@@ -224,7 +223,6 @@ class Ui_footerMenu(object):
 
         self.OpenInstruction.clicked.connect(self.open_instruction)
 
-
     def select_excel(self):
         _translate = QtCore.QCoreApplication.translate
 
@@ -260,9 +258,9 @@ class Ui_footerMenu(object):
                                  'Статистика5': [43, 44],
                                  'Статистика6': [50, 51]}
 
-            prs = ser_pptx.Present(f"{self.pptx_path}{self.exel_file[self.exel_file.rfind("/"):
-                                                                     self.exel_file.rfind(".")]}.pptx",
-                                   f"./resource/pptx files/template.pptx")
+            prs = ser_pptx.Present(
+                f"{self.pptx_path}{self.exel_file[self.exel_file.rfind('/'):self.exel_file.rfind('.')]}.pptx",
+                f"./resource/pptx files/template.pptx")
 
             prs.save_titul_slide("Какой-то 11й группы")
             for key in slides_for_stats.keys():
@@ -295,6 +293,7 @@ class Ui_footerMenu(object):
 if __name__ == "__main__":
     import sys
     import pandas as pd
+    import os
 
     from modules.ser import ser_json, ser_excel, ser_pptx
 

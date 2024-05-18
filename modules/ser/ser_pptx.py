@@ -1,5 +1,3 @@
-#TODO: файл пока сложно обработать, оставлю напоследок, если время останется. @nick-vivo
-# plak plak ;-(
 import pandas as pd
 
 from pptx import Presentation
@@ -7,21 +5,18 @@ from pptx.util import Inches
 
 
 class Present:
-
     table_top = Inches(0.35)
     table_width = Inches(4.0)
     table_height = Inches(0.8)
     table_lefts = [Inches(2.95), Inches(3) + table_width, Inches(3.05) + 2 * table_width]
-
 
     def __init__(self, name_of_file: str, template_file: str):
 
         self.name_of_file = name_of_file
         self.prs = Presentation(template_file)
 
-
     def add_slide(self, data: dict) -> None:
-        
+
         images = data["images"]
         tables = data["tables"]
         texts = data["texts"]
@@ -31,13 +26,12 @@ class Present:
             num_rows, num_columns = table.shape
             slide.shapes.add_table(num_rows, num_columns, Inches(2), Inches(2), Inches(4), Inches(1.5))
 
-
     def save_titul_slide(self, group: str) -> None:
-        
+
         """
         Меняет название группы на титульном слайде шаблона
         """
-        
+
         shapes = self.prs.slides[0].shapes
         for shape in shapes:
             # Check if the shape is a text box
@@ -46,9 +40,8 @@ class Present:
                 if '{group}' in text_frame.text:
                     text_frame.text = text_frame.text.replace("{group}", group)
 
-
     def add_table_to_slide(self, data: pd.DataFrame, slide_index: int) -> None:
-        
+
         """
         Добавляет подготовленную таблицу на слайд шаблонной презы
         :param data: подготволенная таблица из трех столбцов

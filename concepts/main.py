@@ -1,4 +1,3 @@
-# TODO: насколько понимаю, это основная программа, которую хотели сделать. Весь акцент надо сместить на кнопки, каким-то образом. @nick-vivo
 import pandas as pd
 import modules.ser.ser_json as work_with_json
 
@@ -24,7 +23,7 @@ def main(pptx_file: str, xlsx_file: str):
     relevance_table_slide = 54
     rating_data_slide = 53
 
-    prs = Present(pptx_file, 10, template_file)
+    prs = Present(pptx_file, template_file)
     prs.save_titul_slide("Какой-то 11й группы")
     last_table_df = pd.DataFrame(columns=['п/п', 'S_group', 'E_group', 'BB_group'])
     relevance_types = {1: 'Д/р',
