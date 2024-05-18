@@ -9,7 +9,6 @@ from openpyxl_image_loader import SheetImageLoader
 
 
 def get_table_data(xlsx_file: str, name_sheet: str) -> pd.DataFrame:
-
     """
     Извлекает данные из указанной таблицы в файла Excel.
 
@@ -29,7 +28,6 @@ def get_table_data(xlsx_file: str, name_sheet: str) -> pd.DataFrame:
 
 
 def extract_all_images(xlsx_file: str, extract_dir: str) -> None:
-    
     """
     Извлекает все изображения формата PNG и JPEG из указанного 
     XLSX-файла и сохраняет их в указанную директорию.

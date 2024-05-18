@@ -118,12 +118,6 @@ class Ui_footerMenu(object):
         self.Developers.setMaximumSize(QtCore.QSize(16777215, 25))
         self.Developers.setObjectName("Developers")
         self.verticalLayout_5.addWidget(self.Developers)
-        self.OpenInstruction = QtWidgets.QPushButton(self.MenuBase)
-        self.OpenInstruction.setMinimumSize(QtCore.QSize(0, 60))
-        self.OpenInstruction.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.OpenInstruction.setStyleSheet("")
-        self.OpenInstruction.setObjectName("OpenInstruction")
-        self.verticalLayout_5.addWidget(self.OpenInstruction)
         self.textBrowser = QtWidgets.QTextBrowser(self.MenuBase)
         self.textBrowser.setMaximumSize(QtCore.QSize(16777215, 60))
         self.textBrowser.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -180,7 +174,6 @@ class Ui_footerMenu(object):
         footerMenu.setWindowTitle(_translate("footerMenu", "Cryptography"))
         self.Socimetry.setText(_translate("footerMenu", "Sociometry"))
         self.Developers.setText(_translate("footerMenu", "Dev: Semenova, Pihurov, Frolkin"))
-        self.OpenInstruction.setText(_translate("footerMenu", "Open Instruction"))
         self.textBrowser.setHtml(_translate("footerMenu",
                                             "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
                                             "\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -210,9 +203,6 @@ class Ui_footerMenu(object):
 
         self.ExportPresentation.clicked.connect(self.export_output)
 
-        self.OpenInstruction.clicked.connect(self.open_instruction)
-
-
     def select_excel(self):
         _translate = QtCore.QCoreApplication.translate
 
@@ -221,7 +211,6 @@ class Ui_footerMenu(object):
                                                                   directory=now_directory, filter="exel файлы (*.xlsx)")
         self.exel_file = f"./{self.exel_file[len(now_directory) + 1:]}"
         self.PathForTableExcel.setText(_translate("footerMenu", f"EXCEL TABLE FILE : {self.exel_file}"))
-        pass
 
     def select_presentation(self):
         _translate = QtCore.QCoreApplication.translate
@@ -231,7 +220,6 @@ class Ui_footerMenu(object):
                                                                     directory=now_directory)
         self.pptx_path = f"./{self.pptx_path[len(now_directory) + 1:]}"
         self.SelectPresentationForInsert.setText(_translate("footerMenu", f"PATH FOR PRESENTATION : {self.pptx_path}"))
-        pass
 
     def export_output(self):
         try:
@@ -248,9 +236,9 @@ class Ui_footerMenu(object):
                                  'Статистика5': [43, 44],
                                  'Статистика6': [50, 51]}
 
-            prs = ser_pptx.Present(f"{self.pptx_path}{self.exel_file[self.exel_file.rfind("/"):
-                                                                     self.exel_file.rfind(".")]}.pptx",
-                                   f"./resource/pptx files/template.pptx")
+            name_file_pptx = f"{self.pptx_path}{self.exel_file[self.exel_file.rfind("/"):
+                                                               self.exel_file.rfind(".")]}.pptx"
+            prs = ser_pptx.Present(name_file_pptx, f"./resource/pptx files/template.pptx")
 
             prs.save_titul_slide("Какой-то 11й группы")
             for key in slides_for_stats.keys():
@@ -266,16 +254,13 @@ class Ui_footerMenu(object):
                     ind += 1
 
             prs.save()
+            QtWidgets.QMessageBox.information(self.footer,
+                                              "Успех", f"Успешно создан файл по пути: {name_file_pptx}")
         except FileNotFoundError as e:
             QtWidgets.QMessageBox.critical(self.footer, f"File not found", f"File {e} not found!!!")
         except Exception as e:
             QtWidgets.QMessageBox.critical(self.footer, f"Error", f"Error {e}")
 
-        pass
-
-    def open_instruction(self):
-        print("KEK")
-        pass
 
     # НИЖЕ НЕ ТРОГАТЬ!!! ( ЧТОБЫ ПРИ ОБНОВЛЕНИИ МЕНЮ, НЕ МЕНЯТЬ КОД ВНУТРИ!!!!!!!!!! ) @nick-vivo
 
