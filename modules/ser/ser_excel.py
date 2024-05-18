@@ -119,7 +119,7 @@ def split_table_into_parts(data: pd.DataFrame,
     result = {}
 
     for i in range(0, len(headers)):
-        
+
         table = data[data.columns[i+1:i+2]]
         table.insert(0, 'ID', range(1, len(table) + 1))
         

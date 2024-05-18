@@ -2,7 +2,7 @@ import json
 
 
 def read_json(file_path: str) -> dict:
-    
+
     """
     Читает данные из JSON файла и возвращает их в виде словаря.
 

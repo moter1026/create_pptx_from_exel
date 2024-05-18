@@ -192,7 +192,7 @@ class Ui_footerMenu(object):
         self.SelectTableExcel.setText(_translate("footerMenu", "Select Presentation"))
         self.ExportPresentation.setText(_translate("footerMenu", "Get Result!"))
 
-    # ВЫШЕ НЕ ТРОГАТЬ!!! @nick-vivo
+    # ВЫШЕ НЕ ТРОГАТЬ!!!, ниже можете добавлять различные классы, поля, функции и тд, главное добавьте ивенты в select_button @nick-vivo
 
     def select_button(self):
         
@@ -233,6 +233,8 @@ class Ui_footerMenu(object):
 if __name__ == "__main__":
     
     import sys
+
+    from modules.ser import ser_json, ser_excel, ser_pptx
 
     app = QtWidgets.QApplication(sys.argv)
     footerMenu = QtWidgets.QMainWindow()
