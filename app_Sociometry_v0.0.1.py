@@ -20,10 +20,10 @@ class Ui_footerMenu(object):
 
     def setupUi(self, footerMenu):
         footerMenu.setObjectName("footerMenu")
-        footerMenu.resize(988, 598)
+        footerMenu.resize(500, 400)
         font = QtGui.QFont()
-        font.setFamily("C059")
-        font.setPointSize(19)
+        font.setFamily("Noto Sans Lisu")
+        font.setPointSize(25)
         footerMenu.setFont(font)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../icons/label5.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -84,7 +84,7 @@ class Ui_footerMenu(object):
         self.Socimetry.setMaximumSize(QtCore.QSize(16777215, 16777215))
         font = QtGui.QFont()
         font.setFamily("Noto Sans Lisu")
-        font.setPointSize(15)
+        font.setPointSize(25)
         font.setBold(False)
         font.setWeight(50)
         self.Socimetry.setFont(font)
@@ -107,6 +107,8 @@ class Ui_footerMenu(object):
                                     "{ \n"
                                     "    background-color: rgb(193, 227, 166);\n"
                                     "    border-radius: 10px;\n"
+                                    "font-size: 18px;"
+                                    "color: rgb(6, 36, 20);"
                                     "}\n"
                                     "")
         self.MenuBase.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -115,14 +117,11 @@ class Ui_footerMenu(object):
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.MenuBase)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.Developers = QtWidgets.QLabel(self.MenuBase)
-        self.Developers.setMaximumSize(QtCore.QSize(16777215, 25))
+        self.Developers.setMaximumSize(QtCore.QSize(16777215, 30))
         self.Developers.setObjectName("Developers")
+        self.Developers.setContentsMargins(10, 0, 0, 0)
+        self.Developers.setStyleSheet("color: rgb(74, 94, 83);")
         self.verticalLayout_5.addWidget(self.Developers)
-        self.textBrowser = QtWidgets.QTextBrowser(self.MenuBase)
-        self.textBrowser.setMaximumSize(QtCore.QSize(16777215, 60))
-        self.textBrowser.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.textBrowser.setObjectName("textBrowser")
-        self.verticalLayout_5.addWidget(self.textBrowser)
         self.DescryptorsFrame = QtWidgets.QFrame(self.MenuBase)
         self.DescryptorsFrame.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.DescryptorsFrame.setStyleSheet("")
@@ -156,13 +155,24 @@ class Ui_footerMenu(object):
         self.ExportPresentation = QtWidgets.QPushButton(self.DescryptorsFrame)
         self.ExportPresentation.setMinimumSize(QtCore.QSize(0, 60))
         self.ExportPresentation.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.ExportPresentation.setStyleSheet("background-color: rgb(173, 197, 173);")
+        self.ExportPresentation.setStyleSheet("QPushButton:hover\n"
+                                    "{\n"
+                                    "    background-color: rgb(153, 193, 241);\n"
+                                    "}\n"
+                                    "\n"
+                                    "QPushButton\n"
+                                    "{ \n"
+                                    "    background-color: rgb(173, 197, 173);\n"
+                                    "    border-radius: 10px;\n"
+                                    "}\n"
+                                    "")
         self.ExportPresentation.setObjectName("ExportPresentation")
         self.verticalLayout_2.addWidget(self.ExportPresentation)
         self.verticalLayout_5.addWidget(self.DescryptorsFrame)
         self.verticalLayout_3.addWidget(self.MenuBase)
         self.verticalLayout.addWidget(self.footerMenu_content)
         footerMenu.setCentralWidget(self.footerMenu_central)
+
 
         self.retranslateUi(footerMenu)
         QtCore.QMetaObject.connectSlotsByName(footerMenu)
@@ -174,20 +184,7 @@ class Ui_footerMenu(object):
         footerMenu.setWindowTitle(_translate("footerMenu", "Cryptography"))
         self.Socimetry.setText(_translate("footerMenu", "Sociometry"))
         self.Developers.setText(_translate("footerMenu", "Dev: Semenova, Pihurov, Frolkin"))
-        self.textBrowser.setHtml(_translate("footerMenu",
-                                            "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" "
-                                            "\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-                                            "<html><head><meta name=\"qrichtext\" content=\"1\" /><style "
-                                            "type=\"text/css\">\n"
-                                            "p, li { white-space: pre-wrap; }\n"
-                                            "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; "
-                                            "font-weight:400; font-style:normal;\">\n"
-                                            "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-                                            "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Group "
-                                            "number</p>\n"
-                                            "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
-                                            "margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-                                            "text-indent:0px;\"><br /></p></body></html>"))
+
         self.PathForTableExcel.setText(_translate("footerMenu", "EXCEL TABLE FILE"))
         self.SelectTableExcel.setText(_translate("footerMenu", "Select exel table"))
         self.SelectPresentation.setText(_translate("footerMenu", "Select path for presentation"))
@@ -238,7 +235,7 @@ class Ui_footerMenu(object):
 
             prs = ser_pptx.Present(self.pptx_file, f"./resource/pptx files/template.pptx")
 
-            prs.save_titul_slide("Какой-то 11й группы")
+            prs.save_titul_slide("какой-то группы")
             last_table_df = pd.DataFrame(columns=['п/п', 'S_group', 'E_group', 'BB_group'])
             relevance_types = {1: 'Д/р',
                                2: 'Совет',
