@@ -15,7 +15,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_footerMenu(object):
     def __init__(self):
         self.exel_file = None
-        self.pptx_path = None
+        self.pptx_file = None
         self.pptx_file = None
 
     def setupUi(self, footerMenu):
@@ -209,17 +209,14 @@ class Ui_footerMenu(object):
         now_directory = os.getcwd()
         self.exel_file, _ = QtWidgets.QFileDialog.getOpenFileName(self.footer, "Выберете exel файл",
                                                                   directory=now_directory, filter="exel файлы (*.xlsx)")
-        self.exel_file = f"./{self.exel_file[len(now_directory) + 1:]}"
         self.PathForTableExcel.setText(_translate("footerMenu", f"EXCEL TABLE FILE : {self.exel_file}"))
 
     def select_presentation(self):
         _translate = QtCore.QCoreApplication.translate
 
-        now_directory = os.getcwd()
-        self.pptx_path = QtWidgets.QFileDialog.getExistingDirectory(self.footer, "Выберете папку для презентации",
-                                                                    directory=now_directory)
-        self.pptx_path = f"./{self.pptx_path[len(now_directory) + 1:]}"
-        self.SelectPresentationForInsert.setText(_translate("footerMenu", f"PATH FOR PRESENTATION : {self.pptx_path}"))
+        self.pptx_file, _ = QtWidgets.QFileDialog.getSaveFileName(self.footer, "Выберете папку для презентации", ".",
+                                                                  "PowerPoint Files (*.pptx)")
+        self.SelectPresentationForInsert.setText(_translate("footerMenu", f"PATH FOR PRESENTATION : {self.pptx_file}"))
 
     def export_output(self):
         try:
@@ -235,32 +232,59 @@ class Ui_footerMenu(object):
                                  'Статистика4': [36, 37],
                                  'Статистика5': [43, 44],
                                  'Статистика6': [50, 51]}
+            all_groups_slide = 52
+            relevance_table_slide = 54
+            rating_data_slide = 53
 
-            name_file_pptx = f"{self.pptx_path}{self.exel_file[self.exel_file.rfind("/"):
-                                                               self.exel_file.rfind(".")]}.pptx"
-            prs = ser_pptx.Present(name_file_pptx, f"./resource/pptx files/template.pptx")
+            prs = ser_pptx.Present(self.pptx_file, f"./resource/pptx files/template.pptx")
 
             prs.save_titul_slide("Какой-то 11й группы")
+            last_table_df = pd.DataFrame(columns=['п/п', 'S_group', 'E_group', 'BB_group'])
+            relevance_types = {1: 'Д/р',
+                               2: 'Совет',
+                               3: 'Командировка',
+                               4: 'Д/з',
+                               5: 'Инженер',
+                               6: 'IT'}
+            relevance_table = pd.DataFrame(columns=['п/п', 'Вид общения', 'S_group'])
+            i = 1
             for key in slides_for_stats.keys():
-                data = ser_excel.get_table_data(self.exel_file, key)
-                images_paths = ser_excel.save_image_from_excel(self.exel_file, key, "./img")
-                data, stats = ser_excel.split_table_into_parts(data)
+                data = get_table_data(self.exel_file, key)
+                images_paths = save_image_from_excel(self.exel_file, key, 'img')
+                data, stats = split_table_into_parts(data)
                 for stat_key in data.keys():
                     prs.add_table_to_slide(data[stat_key], slides_for_stats[key][stat_key])
-
+                prs.add_mini_table_to_slide(stats, slides_for_stats[key]['group'])
+                stats['п/п'] = i
+                last_table_df.loc[len(last_table_df)] = stats
+                relevance_table.loc[len(relevance_table)] = {'п/п': i, 'Вид общения': relevance_types[i],
+                                                             'S_group': stats['S_group']}
+                i += 1
                 ind = 0
                 for path in images_paths:
                     prs.add_image_to_slide(path, slides_for_graphs[key][ind])
                     ind += 1
+            prs.add_last_tables(last_table_df, all_groups_slide)
+            relevance_table = relevance_table.sort_values(by=relevance_table.columns[2], ascending=False)
+            relevance_table.insert(0, 'Рейтинг', range(1, len(relevance_table) + 1))
+            prs.add_last_tables(relevance_table, relevance_table_slide)
 
+            rating_data = pd.DataFrame(columns=['п/п', 'Вид общения', 'Кол-во выборов'])
+            for i in range(1, 7):
+                data = get_table_data(self.exel_file, f"Лист{i}")
+                sum_ = data.iloc[1:, 1:].sum().sum()
+                rating_data.loc[len(rating_data)] = {'п/п': i, 'Вид общения': relevance_types[i],
+                                                     'Кол-во выборов': sum_}
+            rating_data = rating_data.sort_values(by=rating_data.columns[2], ascending=False)
+            rating_data.insert(0, 'Рейтинг', range(1, len(rating_data) + 1))
+            prs.add_last_tables(rating_data, rating_data_slide)
             prs.save()
             QtWidgets.QMessageBox.information(self.footer,
-                                              "Успех", f"Успешно создан файл по пути: {name_file_pptx}")
+                                              "Успех", f"Успешно создан файл по пути: {self.pptx_file}")
         except FileNotFoundError as e:
             QtWidgets.QMessageBox.critical(self.footer, f"File not found", f"File {e} not found!!!")
         except Exception as e:
             QtWidgets.QMessageBox.critical(self.footer, f"Error", f"Error {e}")
-
 
     # НИЖЕ НЕ ТРОГАТЬ!!! ( ЧТОБЫ ПРИ ОБНОВЛЕНИИ МЕНЮ, НЕ МЕНЯТЬ КОД ВНУТРИ!!!!!!!!!! ) @nick-vivo
 
@@ -268,7 +292,9 @@ class Ui_footerMenu(object):
 if __name__ == "__main__":
     import sys
     import pandas as pd
-
+    from modules.ser.ser_excel import (get_table_data, split_table_into_parts,
+                                       save_image_from_excel)
+    from modules.ser.ser_pptx import Present
     from modules.ser import ser_json, ser_excel, ser_pptx
 
     app = QtWidgets.QApplication(sys.argv)
