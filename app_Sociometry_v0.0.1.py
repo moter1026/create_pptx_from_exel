@@ -12,10 +12,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_footerMenu(object):
-    
-    
-    def setupUi(self, footerMenu):
 
+    def setupUi(self, footerMenu):
         footerMenu.setObjectName("footerMenu")
         footerMenu.resize(988, 598)
         font = QtGui.QFont()
@@ -86,7 +84,7 @@ class Ui_footerMenu(object):
         font.setWeight(50)
         self.Socimetry.setFont(font)
         self.Socimetry.setScaledContents(True)
-        self.Socimetry.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.Socimetry.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.Socimetry.setObjectName("Socimetry")
         self.horizontalLayout_9.addWidget(self.Socimetry)
         self.horizontalLayout_7.addWidget(self.fText)
@@ -96,16 +94,16 @@ class Ui_footerMenu(object):
         self.verticalLayout_3.addWidget(self.footer)
         self.MenuBase = QtWidgets.QFrame(self.footerMenu_content)
         self.MenuBase.setStyleSheet("QPushButton:hover\n"
-"{\n"
-"    background-color: rgb(153, 193, 241);\n"
-"}\n"
-"\n"
-"QPushButton\n"
-"{ \n"
-"    background-color: rgb(193, 227, 166);\n"
-"    border-radius: 10px;\n"
-"}\n"
-"")
+                                    "{\n"
+                                    "    background-color: rgb(153, 193, 241);\n"
+                                    "}\n"
+                                    "\n"
+                                    "QPushButton\n"
+                                    "{ \n"
+                                    "    background-color: rgb(193, 227, 166);\n"
+                                    "    border-radius: 10px;\n"
+                                    "}\n"
+                                    "")
         self.MenuBase.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.MenuBase.setFrameShadow(QtWidgets.QFrame.Plain)
         self.MenuBase.setObjectName("MenuBase")
@@ -172,20 +170,19 @@ class Ui_footerMenu(object):
 
         self.select_button()
 
-
     def retranslateUi(self, footerMenu):
-    
         _translate = QtCore.QCoreApplication.translate
         footerMenu.setWindowTitle(_translate("footerMenu", "Cryptography"))
         self.Socimetry.setText(_translate("footerMenu", "Sociometry"))
         self.Developers.setText(_translate("footerMenu", "Dev: Semenova, Pihurov, Frolkin"))
         self.OpenInstruction.setText(_translate("footerMenu", "Open Instruction"))
-        self.textBrowser.setHtml(_translate("footerMenu", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Group number</p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        self.textBrowser.setHtml(_translate("footerMenu",
+                                            "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                            "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                            "p, li { white-space: pre-wrap; }\n"
+                                            "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
+                                            "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Group number</p>\n"
+                                            "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.PathForTableExcel.setText(_translate("footerMenu", "PATH/FOR/TABLE/EXCEL"))
         self.SelectPresentation.setText(_translate("footerMenu", "Select Table Excel"))
         self.SelectPresentationForInsert.setText(_translate("footerMenu", "PATH/FOR/PRESENTATION"))
@@ -195,52 +192,46 @@ class Ui_footerMenu(object):
     # ВЫШЕ НЕ ТРОГАТЬ!!!, ниже можете добавлять различные классы, поля, функции и тд, главное добавьте ивенты в select_button @nick-vivo
 
     def select_button(self):
-        
-        #TODO: добавлять обработчики событий, допустим при нажатии кнопки и тд @nick-vivo
+        # TODO: добавлять обработчики событий, допустим при нажатии кнопки и тд @nick-vivo
         self.SelectTableExcel.clicked.connect(self.select_excel)
-        
+
         self.SelectPresentation.clicked.connect(self.select_presentation)
-        
+
         self.ExportPresentation.clicked.connect(self.export_output)
-        
+
         self.OpenInstruction.clicked.connect(self.open_instruction)
 
-    #TODO: прописываете функционал функций @nick-vivo
+    # TODO: прописываете функционал функций @nick-vivo
 
     def select_excel(self):
-        
         print("F*** U")
         pass
 
     def select_presentation(self):
-        
         print("U CLOUN")
         pass
 
     def export_output(self):
-        
         print("STU*** SH**")
         pass
 
-
     def open_instruction(self):
-        
         print("KEK")
         pass
 
     # НИЖЕ НЕ ТРОГАТЬ!!! ( ЧТОБЫ ПРИ ОБНОВЛЕНИИ МЕНЮ, НЕ МЕНЯТЬ КОД ВНУТРИ!!!!!!!!!! ) @nick-vivo
 
+
 if __name__ == "__main__":
-    
     import sys
 
     from modules.ser import ser_json, ser_excel, ser_pptx
 
     app = QtWidgets.QApplication(sys.argv)
     footerMenu = QtWidgets.QMainWindow()
-    
+
     ui = Ui_footerMenu()
     ui.setupUi(footerMenu)
-    
+
     footerMenu.show()
     sys.exit(app.exec_())

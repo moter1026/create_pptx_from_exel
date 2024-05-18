@@ -9,7 +9,6 @@ from openpyxl_image_loader import SheetImageLoader
 
 
 def get_table_data(xlsx_file: str, name_sheet: str) -> pd.DataFrame:
-
     """
     Извлекает данные из указанной таблицы в файла Excel.
 
@@ -29,7 +28,6 @@ def get_table_data(xlsx_file: str, name_sheet: str) -> pd.DataFrame:
 
 
 def extract_all_images(xlsx_file: str, extract_dir: str) -> None:
-    
     """
     Извлекает все изображения формата PNG и JPEG из указанного 
     XLSX-файла и сохраняет их в указанную директорию.
@@ -54,7 +52,6 @@ def extract_all_images(xlsx_file: str, extract_dir: str) -> None:
 
 
 def save_image_from_excel(xlsx_file: str, name_sheet: str, extract_dir: str) -> List[str]:
-    
     """
     Ищет изображения в указанном файле Excel, на указанном листе и сохраняет их в указанную директорию.
 
@@ -78,15 +75,15 @@ def save_image_from_excel(xlsx_file: str, name_sheet: str, extract_dir: str) -> 
     count_img = 0
 
     for coordinate in image_loader._images:
-        
+
         if not os.path.exists(extract_dir):
             os.makedirs(extract_dir)
 
         image = image_loader.get(coordinate)
         image_name = f'{extract_dir}/{name_sheet}_{count_img}.png'
-        
+
         image.save(image_name)
-        
+
         result.append(image_name)
         count_img += 1
 
@@ -97,8 +94,7 @@ def split_table_into_parts(data: pd.DataFrame,
                            headers: List[str] = ['C_plus', 'E_plus', 'КУО'],
                            group_table_indexes: List[str] = ['S_group', 'E_group', 'BB_group']
                            ) -> tuple[dict, dict]:
-
-    #TODO: нужно ли кидать исключения, если headers != group_table_indexes? @nick-vivo
+    # TODO: нужно ли кидать исключения, если headers != group_table_indexes? @nick-vivo
 
     """
     Принимает данные из DataFrame и разбивает их на три таблицы с указанными заголовками и индексами групп.
@@ -119,17 +115,16 @@ def split_table_into_parts(data: pd.DataFrame,
     result = {}
 
     for i in range(0, len(headers)):
-
-        table = data[data.columns[i+1:i+2]]
+        table = data[data.columns[i + 1:i + 2]]
         table.insert(0, 'ID', range(1, len(table) + 1))
-        
-        table = table.sort_values(by=data.columns[i+1], ascending=False)
+
+        table = table.sort_values(by=data.columns[i + 1], ascending=False)
         table.insert(0, 'п/п', range(1, len(table) + 1))
-        
+
         result[headers[i]] = table
 
     group_table = {}
-    
+
     for key in group_table_indexes:
         group_table[key] = data.at[0, key]
 
