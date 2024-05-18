@@ -1,3 +1,4 @@
+#TODO: сделать из этого одну функцию - как-то. Для начала разобраться, что под этим подразумевалось и какой концепт закладывался @nick-vivo
 import pptx
 
 import work_with_exel
@@ -12,8 +13,9 @@ from pptx.util import Inches, Pt
 
 
 def main() -> None:
-    # Получаю данные из exel и создаю презентацию в pptx
-    # в будущем создам функции для работы с pptx
+    
+    # Получаю данные из exel и создаю презентацию в pptx в будущем создам функции для работы с pptx @мб Сашка
+
     json_data = work_with_json.read_json_file("./files.json")
 
     name_exel_file = json_data["exel_in_file"]
@@ -46,8 +48,11 @@ def main() -> None:
         table = shapes.add_table(rows, columns, left, top, width, height).table
 
         for row in stat.itertuples():
+            
             for index in range(stat.columns.size):
+            
                 value = str(stat.iloc[row.Index, index])
+            
                 table.cell(int(row.Index), int(index)).text = value
                 table.cell(int(row.Index), int(index)).text_frame.paragraphs[0].runs[0].font.size = Pt(10)
 
