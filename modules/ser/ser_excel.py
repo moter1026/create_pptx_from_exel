@@ -54,7 +54,6 @@ def extract_all_images(xlsx_file: str, extract_dir: str) -> None:
 
 
 def save_image_from_excel(xlsx_file: str, name_sheet: str, extract_dir: str) -> List[str]:
-    
     """
     Ищет изображения в указанном файле Excel, на указанном листе и сохраняет их в указанную директорию.
 

@@ -14,10 +14,9 @@ class Present:
     table_lefts = [Inches(2.95), Inches(3) + table_width, Inches(3.05) + 2 * table_width]
 
 
-    def __init__(self, name_of_file: str, count_slides: int, template_file: str):
+    def __init__(self, name_of_file: str, template_file: str):
 
         self.name_of_file = name_of_file
-        self.count_slides = count_slides
         self.prs = Presentation(template_file)
 
 
