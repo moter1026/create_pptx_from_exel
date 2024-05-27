@@ -233,9 +233,10 @@ class Ui_footerMenu(object):
             relevance_table_slide = 54
             rating_data_slide = 53
 
-            prs = ser_pptx.Present(self.pptx_file, f"./resource/pptx files/template.pptx")
-
-            prs.save_titul_slide("какой-то группы")
+            prs = ser_pptx.Present(self.pptx_file, f"template.pptx")
+            group_num = get_table_data(self.exel_file, "Лист1")
+            group_num = group_num.columns[0]
+            prs.save_titul_slide(f"группы {group_num}")
             last_table_df = pd.DataFrame(columns=['п/п', 'S_group', 'E_group', 'BB_group'])
             relevance_types = {1: 'Д/р',
                                2: 'Совет',
